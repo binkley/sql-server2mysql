@@ -9,8 +9,6 @@ EOS
 
 test "$fixed" = "-- No space"
 
-/bin/false
-
 fixed="$(./sql-server2mysql <<EOS
   prefix --No space
 EOS
