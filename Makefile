@@ -3,12 +3,18 @@ SHELL = /bin/sh
 all:
 
 check:
-	@. ./assert.sh ; \
-	set -e ; \
+	@let passed=0 failed=0 ; \
 	for t in t/* ; \
 	do \
-	    assert $t ; \
+	    $$t && { \
+	        let ++passed; \
+	        echo "PASS: $$t" ; \
+	    } || { \
+	        let ++failed ; \
+	        echo "FAIL: $$t" ; \
+	    } \
 	done ; \
-	assert_end
+	echo "$$passed passed, $$failed failed" ; \
+	exit $$failed
 
 clean:
