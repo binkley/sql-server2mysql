@@ -3,4 +3,6 @@
 set -e
 
 help=$(./sql-server2mysql -h)
+help=$(./sql-server2mysql --help)
 verbose=$(./sql-server2mysql -v </dev/null)
+verbose=$(./sql-server2mysql --verbose </dev/null)

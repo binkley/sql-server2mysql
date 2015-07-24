@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Uses long options and modern getopt.  Validate this assumption
+getopt -T 2>/dev/null
+case $? in
+4 ) ;; # Good - see getopt(1)
+* ) echo "$0: Wrong getopt, sorry" >&2 ; exit 4 ;;
+esac
+
 function usage()
 {
     echo "usage: $0 [-hv]"
@@ -16,11 +23,13 @@ EOH
 
 verbose=false
 
-while getopts :hv opt
+set - $(getopt -n "$0" -l help,verbose -o hv -s bash -- "$@")
+
+while getopts :hv-: opt
 do
     case "$opt" in
-    h ) usage ; exit 0 ;;
-    v ) verbose=true ;;
+    h | -help ) help ; exit 0 ;;
+    v | -verbose ) verbose=true ;;
     * ) usage >&2 ; exit 2 ;;
     esac
 done
