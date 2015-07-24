@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+help=$(./sql-server2mysql -h)
+verbose=$(./sql-server2mysql -v </dev/null)

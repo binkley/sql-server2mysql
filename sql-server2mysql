@@ -2,30 +2,39 @@
 
 function usage()
 {
-    echo "usage: $0 [-h]"
+    echo "usage: $0 [-hv]"
 }
 
-while getopts :h opt
+function help()
+{
+    usage
+    cat <<EOH
+  -h  (help) Print help and exit
+  -v  (verbose) Explain processing
+EOH
+}
+
+verbose=false
+
+while getopts :hv opt
 do
-    case $opt in
+    case "$opt" in
     h ) usage ; exit 0 ;;
+    v ) verbose=true ;;
     * ) usage >&2 ; exit 2 ;;
     esac
 done
 shift $((OPTIND - 1))
 
-case $# in
-0 ) ;;
-* ) usage >&2 ; exit 2 ;;
-esac
-
 while IFS='' read line
 do
     # MySQL requires space after -- in comments
     line="${line/--/-- }"
+    $verbose && echo "Fixed comments" >&2
     # Always strip square brackets from identifiers
     line="${line//[/}"
     line="${line//]/}"
+    $verbose && echo "Fixed brackets" >&2
 
     echo "$line"
 done

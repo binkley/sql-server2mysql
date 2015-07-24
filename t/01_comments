@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+fixed="$(./sql-server2mysql <<EOS
+--No space
+EOS
+)"
+
+test "$fixed" = "-- No space"
