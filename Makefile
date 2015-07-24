@@ -6,12 +6,12 @@ check:
 	@let passed=0 failed=0 ; \
 	for t in t/* ; \
 	do \
-	    $$t && { \
+	    out=$$($$t) && { \
 	        let ++passed; \
-	        echo "PASS: $$t" ; \
+		[[ -n "$$out" ]] && echo "PASS: $$t: $$out" || echo "PASS: $$t" ; \
 	    } || { \
 	        let ++failed ; \
-	        echo "FAIL: $$t" ; \
+		[[ -n "$$out" ]] && echo "FAIL: $$t: $$out" || echo "FAIL: $$t" ; \
 	    } \
 	done ; \
 	echo "$$passed passed, $$failed failed" ; \

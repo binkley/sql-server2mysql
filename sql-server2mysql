@@ -23,13 +23,19 @@ EOH
 
 verbose=false
 
-set - $(getopt -n "$0" -l help,verbose -o hv -s bash -- "$@")
+args=$(getopt -n "$0" -l help,verbose -o hv -s bash -- "$@") || exit $?
+set - $args
 
 while getopts :hv-: opt
 do
     case "$opt" in
-    h | -help ) help ; exit 0 ;;
-    v | -verbose ) verbose=true ;;
+    h ) help ; exit 0 ;;
+    v ) verbose=true ;;
+    - ) case $OPTARG in
+        help ) help ; exit 0 ;;
+        verbose ) verbose=true ;;
+        * ) usage >&2 ; exit 2 ;;
+        esac ;;
     * ) usage >&2 ; exit 2 ;;
     esac
 done
