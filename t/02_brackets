@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+fixed="$(./sql-server2mysql <<EOS
+select [uncle].[bob]
+EOS
+)"
+
+test "$fixed" = "select uncle.bob"
