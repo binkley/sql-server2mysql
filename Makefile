@@ -1,3 +1,5 @@
+SHELL = /bin/sh
+
 all:
 
 check:
@@ -8,3 +10,5 @@ check:
 	    assert $t ; \
 	done ; \
 	assert_end
+
+clean:
