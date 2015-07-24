@@ -1,0 +1,31 @@
+#!/bin/bash
+
+function usage()
+{
+    echo "usage: $0 [-h]"
+}
+
+while getopts :h opt
+do
+    case $opt in
+    h ) usage ; exit 0 ;;
+    * ) usage >&2 ; exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+case $# in
+0 ) ;;
+* ) usage >&2 ; exit 2 ;;
+esac
+
+while IFS='' read line
+do
+    # MySQL requires space after -- in comments
+    line="${line/--/-- }"
+    # Always strip square brackets from identifiers
+    line="${line//[/}"
+    line="${line//]/}"
+
+    echo "$line"
+done
