@@ -21,6 +21,8 @@ function help()
 EOH
 }
 
+shopt -s nocasematch
+
 verbose=false
 
 args=$(getopt -n "$0" -l help,verbose -o hv -s bash -- "$@") || exit $?
@@ -45,11 +47,11 @@ while IFS='' read line
 do
     # MySQL requires space after -- in comments
     line="${line/--/-- }"
-    $verbose && echo "Fixed comments" >&2
     # Always strip square brackets from identifiers
     line="${line//[/}"
     line="${line//]/}"
-    $verbose && echo "Fixed brackets" >&2
+    # GO becomes semicolon
+    [[ "$line" =~ ^( *)GO( *)$ ]] && line="${BASH_REMATCH[1]};${BASH_REMATCH[2]}"
 
     echo "$line"
 done
