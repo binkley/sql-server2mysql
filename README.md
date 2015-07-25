@@ -6,3 +6,4 @@ Simplistic approach to converting SQL Server stored procedures to MySQL.
 
 * Ensures `--` comment marker is followed by a space
 * Removes `[identifier]` square brackets
+* Turns `GO` into semicolons
