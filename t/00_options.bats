@@ -1,19 +1,25 @@
 #!/usr/bin/env bats
 
 @test "-h option" {
-    help="$(./sql-server2mysql -h)"
-    [ -n "$help" ]
+    run ./sql-server2mysql -h
+    [ "$status" -eq 0 ]
+    [ -n "$output" ]
 }
 
 @test "--help option" {
-    help="$(./sql-server2mysql --help)"
-    [ -n "$help" ]
+    run ./sql-server2mysql --help
+    [ "$status" -eq 0 ]
+    [ -n "$output" ]
 }
 
 @test "-v option" {
-    ./sql-server2mysql -v </dev/null
+    run ./sql-server2mysql -v </dev/null
+    [ "$status" -eq 0 ]
+    [ -z "$output" ]
 }
 
 @test "--verbose option" {
-    ./sql-server2mysql --verbose </dev/null
+    run ./sql-server2mysql --verbose </dev/null
+    [ "$status" -eq 0 ]
+    [ -z "$output" ]
 }
