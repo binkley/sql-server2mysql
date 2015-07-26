@@ -1,0 +1,5 @@
+CREATE PROCEDURE bob
+  @foo CHAR(1),
+  @bar NUMBER(2,2)
+As
+BEGIN

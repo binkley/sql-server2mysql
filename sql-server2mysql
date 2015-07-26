@@ -53,15 +53,33 @@ then
     set -x
 fi
 
+go_re='^ *GO *$'
+proc_re='^ *CREATE +PROCEDURE'
+proc_end='^ *AS *$'
+in_proc=false
+
 while IFS='' read line
 do
-    # MySQL requires space after -- in comments
-    line="${line/--/-- }"
-    # Always strip square brackets from identifiers
-    line="${line//[/}"
+    line="${line/--/-- }"  # --Comment -> -- Comment
+    line="${line//[/}"  # [some].[id] -> some.id
     line="${line//]/}"
-    # GO becomes semicolon
-    [[ "$line" =~ ^( *)GO( *)$ ]] && line="${BASH_REMATCH[1]};${BASH_REMATCH[2]}"
+
+    if [[ "$line" =~ $go_re ]]
+    then
+        line=';'  # GO -> ;
+    elif [[ "$line" =~ $proc_re ]]
+    then
+        in_proc=true
+        line="$line("  # DECLARE PROCEDURE bob -> DECLARE PROCEDURE bob(
+    elif [[ "$line" =~ $proc_end ]]
+    then
+        in_proc=false
+	line=')'  # AS -> ) for stored procedure params
+    elif $in_proc
+    then
+        line="${line/@/IN }"  # @SomeParam AS CHAR(1) -> IN SomeParam CHAR(1)
+        line="${line/ AS/}"
+    fi
 
     echo "$line"
 done
