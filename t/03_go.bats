@@ -7,5 +7,5 @@ go
 EOS
     t='do this
 ;'
-    [ "$output" = "$t" ]
+    test "$output" = "$t"
 }
