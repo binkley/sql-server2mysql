@@ -1,5 +1,15 @@
 #!/usr/bin/env bats
 
+@test "-d option" {
+    run ./sql-server2mysql -d </dev/null
+    [ "$status" -eq 0 ]
+}
+
+@test "--debug option" {
+    run ./sql-server2mysql -d </dev/null
+    [ "$status" -eq 0 ]
+}
+
 @test "-h option" {
     run ./sql-server2mysql -h
     [ "$status" -eq 0 ]
