@@ -9,13 +9,14 @@ esac
 
 function usage()
 {
-    echo "usage: $0 [-hv]"
+    echo "usage: $0 [-dhv]"
 }
 
 function help()
 {
     usage
     cat <<EOH
+  -d  (debug) More helpful output
   -h  (help) Print help and exit
   -v  (verbose) Explain processing
 EOH
@@ -23,17 +24,20 @@ EOH
 
 shopt -s nocasematch
 
+debug=false
 verbose=false
 
-args=$(getopt -n "$0" -l help,verbose -o hv -s bash -- "$@") || exit $?
+args=$(getopt -n "$0" -l debug,help,verbose -o dhv -s bash -- "$@") || exit $?
 set - $args
 
-while getopts :hv-: opt
+while getopts :dhv-: opt
 do
     case "$opt" in
+    d ) debug=true ;;
     h ) help ; exit 0 ;;
     v ) verbose=true ;;
     - ) case $OPTARG in
+        debug ) debug=true ;;
         help ) help ; exit 0 ;;
         verbose ) verbose=true ;;
         * ) usage >&2 ; exit 2 ;;
@@ -42,6 +46,12 @@ do
     esac
 done
 shift $((OPTIND - 1))
+
+if $debug
+then
+    export PS4='$0:$LINENO+ '
+    set -x
+fi
 
 while IFS='' read line
 do
