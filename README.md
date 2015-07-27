@@ -54,6 +54,24 @@ $ brew unlink gnu-getopt
 $ brew link --force gnu-getopt
 ```
 
+### Live testing
+
+Install and set up MySQL.  On OS X, use homebrew:
+
+```bash
+$ brew install mysql
+$ mysql.server start  # Starts as YOU
+```
+
+General pattern is:
+
+```bash
+$ ./sqlserver2mysql <some_sqlserver_script | mysql
+```
+
+If there are no errors (exit code is 0 and no output to STDERR), the
+transpiled code is syntactically valid.  Semantic errors are still likely.
+
 ## Changes
 
 ### Version 0
