@@ -54,6 +54,7 @@ then
 fi
 
 go_re='^ *GO *$'
+set_re='^ *SET *'
 proc_re='^ *CREATE +PROCEDURE'
 proc_end='^ *AS *$'
 in_proc=false
@@ -67,6 +68,9 @@ do
     if [[ "$line" =~ $go_re ]]
     then
         line=';'  # GO -> ;
+    elif [[ "$line" =~ $set_re ]]
+    then
+        line="-- $line"  # SET FOO ON -> -- SET FOO ON
     elif [[ "$line" =~ $proc_re ]]
     then
         in_proc=true
