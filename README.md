@@ -25,10 +25,16 @@ Use `make`.  Obvious targets:
 * all - does nothing, present to satisfy least surprise
 * test - runs [Bats](https://github.com/sstephenson/bats) tests
 
-To test you must install Bats.
+To test you must install Bats.  On Linux and Cygwin, follow [the
+instructions](https://github.com/sstephenson/bats#installing-bats-from-source).
+On OS X, use homebrew:
+
+```bash
+$ brew install bats
+```
 
 The script relies on GNU `getopt` or similar, standard on Linux and Cygwin.
-BSD/OS X `getopt` will not work; in this case use homebrew:
+BSD/OS X `getopt` will not work; in this case, use homebrew:
 
 ```bash
 $ brew info gnu-getopt  # Caution! Read about this first
