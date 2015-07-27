@@ -3,7 +3,8 @@
 Simplistic approach to converting SQL Server stored procedures to MySQL.
 
 Essentially a BASH script which converts using regular expressions (more or
-less).
+less).  The purpose it to speed up human translation, not be a perfect
+machine translator.
 
 ## Goals
 
@@ -16,6 +17,15 @@ less).
 
 * Complete parsing of SQL Server and MySQL.
 * 100% fidelity.
+
+## Build and test
+
+Use `make`.  Obvious targets:
+
+* all - does nothing, present to satisfy least surprise
+* test - runs [Bats](https://github.com/sstephenson/bats) tests
+
+To test you must install Bats.
 
 ## What it does
 
