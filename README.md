@@ -18,6 +18,17 @@ machine translator.
 * Complete parsing of SQL Server and MySQL.
 * 100% fidelity.
 
+## What it does
+
+* Numbers source lines via comment
+* Ensures `--` comment marker is followed by a space
+* Removes `[identifier]` square brackets
+* Turns `GO` into semicolons
+* Handles stored procedure parameter declarations
+* Comments out SET directives
+* Handles temporary tables
+* Terminates local variable assignment
+
 ## Build and test
 
 Use `make`.  Obvious targets:
@@ -42,14 +53,3 @@ $ brew install gnu-getopt
 $ brew unlink gnu-getopt
 $ brew link --force gnu-getopt
 ```
-
-## What it does
-
-* Numbers source lines via comment
-* Ensures `--` comment marker is followed by a space
-* Removes `[identifier]` square brackets
-* Turns `GO` into semicolons
-* Handles stored procedure parameter declarations
-* Comments out SET directives
-* Handles temporary tables
-* Terminates local variable assignment
