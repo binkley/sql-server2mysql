@@ -53,13 +53,13 @@ then
     set -x
 fi
 
-go_re='^ *GO *$'
-set_re='^ *SET +[^@]'
-proc_re='^ *CREATE +PROCEDURE'
-proc_end='^ *AS *$'
-in_proc=false
-local_var_re='^ *SET +@'
-temp_table_re='^ *CREATE +TABLE +#(.*)'
+go_directive_re='^( *)GO *$'
+set_directive_re='^( *)(SET +[^@].*)'
+create_proc_re='^ *CREATE +PROCEDURE +.*'
+create_proc_end='^( *)AS *$'
+in_create_proc=false
+local_var_re='^( *)SET +@'
+temp_table_re='^( *)CREATE +TABLE +#(.*)'
 temp_table_end='^ *\) *$'  # TODO: What if ) is on previous line?
 in_temp_table=false
 
@@ -69,21 +69,21 @@ do
     line="${line//[/}"  # [some].[id] -> some.id
     line="${line//]/}"
 
-    if [[ "$line" =~ $go_re ]]
+    if [[ "$line" =~ $go_directive_re ]]
     then
-        line=';'  # GO -> ;
-    elif [[ "$line" =~ $set_re ]]
+        line="${BASH_REMATCH[1]};"  # GO -> ;
+    elif [[ "$line" =~ $set_directive_re ]]
     then
-        line="-- $line"  # SET FOO ON -> -- SET FOO ON
-    elif [[ "$line" =~ $proc_re ]]
+        line="${BASH_REMATCH[1]}-- ${BASH_REMATCH[2]}"  # SET FOO ON -> -- SET FOO ON
+    elif [[ "$line" =~ $create_proc_re ]]
     then
         line="$line("  # DECLARE PROCEDURE bob -> DECLARE PROCEDURE bob(
-        in_proc=true
-    elif [[ "$line" =~ $proc_end ]]
+        in_create_proc=true
+    elif [[ "$line" =~ $create_proc_end ]]
     then
-	line=')'  # AS -> ) for stored procedure params
-        in_proc=false
-    elif $in_proc
+	line="${BASH_REMATCH[1]})"  # AS -> ) for stored procedure params
+        in_create_proc=false
+    elif $in_create_proc
     then
         line="${line/@/IN }"  # @SomeParam AS CHAR(1) -> IN SomeParam CHAR(1)
         line="${line/ AS/}"
@@ -92,11 +92,11 @@ do
         line="$line;"
     elif [[ "$line" =~ $temp_table_re ]]
     then
-        line="CREATE TEMPORARY TABLE ${BASH_REMATCH[1]}"
+        line="${BASH_REMATCH[1]}CREATE TEMPORARY TABLE ${BASH_REMATCH[2]}"
         in_temp_table=true
     elif $in_temp_table && [[ "$line" =~ $temp_table_end ]]
     then
-        line=');'
+        line="$line;"
         in_temp_table=false
     fi
 
