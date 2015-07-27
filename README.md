@@ -10,3 +10,4 @@ Simplistic approach to converting SQL Server stored procedures to MySQL.
 * Handles stored procedure parameter declarations
 * Comments out SET directives
 * Handles temporary tables
+* Terminates local variable assignment

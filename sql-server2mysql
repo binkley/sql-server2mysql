@@ -54,10 +54,11 @@ then
 fi
 
 go_re='^ *GO *$'
-set_re='^ *SET *'
+set_re='^ *SET +[^@]'
 proc_re='^ *CREATE +PROCEDURE'
 proc_end='^ *AS *$'
 in_proc=false
+local_var_re='^ *SET +@'
 temp_table_re='^ *CREATE +TABLE +#(.*)'
 temp_table_end='^ *\) *$'  # TODO: What if ) is on previous line?
 in_temp_table=false
@@ -86,6 +87,9 @@ do
     then
         line="${line/@/IN }"  # @SomeParam AS CHAR(1) -> IN SomeParam CHAR(1)
         line="${line/ AS/}"
+    elif [[ "$line" =~ $local_var_re ]]
+    then
+        line="$line;"
     elif [[ "$line" =~ $temp_table_re ]]
     then
         line="CREATE TEMPORARY TABLE ${BASH_REMATCH[1]}"
