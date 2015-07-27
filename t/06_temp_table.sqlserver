@@ -1,0 +1,4 @@
+CREATE TABLE #bob(
+  foo CHAR(1),
+  bar CHAR(1)
+)

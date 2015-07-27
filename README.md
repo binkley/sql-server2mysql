@@ -9,3 +9,4 @@ Simplistic approach to converting SQL Server stored procedures to MySQL.
 * Turns `GO` into semicolons
 * Handles stored procedure parameter declarations
 * Comments out SET directives
+* Handles temporary tables
