@@ -1,1 +1,1 @@
-  SET @foo = 3;
+  SET @foo = 3; -- l#1

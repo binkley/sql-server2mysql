@@ -27,8 +27,19 @@ Use `make`.  Obvious targets:
 
 To test you must install Bats.
 
+The script relies on GNU `getopt` or similar, standard on Linux and Cygwin.
+BSD/OS X `getopt` will not work; in this case use homebrew:
+
+```bash
+$ brew info gnu-getopt  # Caution! Read about this first
+$ brew install gnu-getopt
+$ brew unlink gnu-getopt
+$ brew link --force gnu-getopt
+```
+
 ## What it does
 
+* Numbers source lines via comment
 * Ensures `--` comment marker is followed by a space
 * Removes `[identifier]` square brackets
 * Turns `GO` into semicolons

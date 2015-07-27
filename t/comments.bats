@@ -5,7 +5,7 @@
 --No space
 EOS
 
-    [ "$output" = "-- No space" ]
+    [ "$output" = "-- No space -- l#1" ]
 }
 
 @test "comments at end of line" {
@@ -13,5 +13,5 @@ EOS
   prefix --No space
 EOS
 
-   [ "$output" = "  prefix -- No space" ]
+   [ "$output" = "  prefix -- No space -- l#1" ]
 }

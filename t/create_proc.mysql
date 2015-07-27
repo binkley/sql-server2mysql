@@ -1,5 +1,5 @@
-  CREATE PROCEDURE bob(
-    IN foo CHAR(1),
-    IN bar NUMBER(2,2)
-  )
-  BEGIN
+  CREATE PROCEDURE bob( -- l#1
+    IN foo CHAR(1), -- l#2
+    IN bar NUMBER(2,2) -- l#3
+  ) -- l#4
+  BEGIN -- l#5

@@ -1,4 +1,4 @@
-CREATE TEMPORARY TABLE bob(
-  foo CHAR(1),
-  bar CHAR(1)
-);
+CREATE TEMPORARY TABLE bob( -- l#1
+  foo CHAR(1), -- l#2
+  bar CHAR(1) -- l#3
+); -- l#4

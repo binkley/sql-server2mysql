@@ -63,8 +63,10 @@ temp_table_re='^( *)CREATE +TABLE +#(.*)'
 temp_table_end='^ *\) *$'  # TODO: What if ) is on previous line?
 in_temp_table=false
 
+let lineno=0
 while IFS='' read line
 do
+    let ++lineno
     line="${line/--/-- }"  # --Comment -> -- Comment
     line="${line//[/}"  # [some].[id] -> some.id
     line="${line//]/}"
@@ -100,5 +102,5 @@ do
         in_temp_table=false
     fi
 
-    echo "$line"
+    echo "$line -- l#$lineno"
 done

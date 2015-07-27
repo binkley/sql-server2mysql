@@ -5,5 +5,5 @@
 select [uncle].[bob]
 EOS
 
-    [ "$output" = "select uncle.bob" ]
+    [ "$output" = "select uncle.bob -- l#1" ]
 }
