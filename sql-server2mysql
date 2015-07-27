@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SQLSERVER2MYSQL_VERSION=0
+
 # Uses long options and modern getopt.  Validate this assumption
 getopt -T 2>/dev/null
 case $? in
@@ -7,18 +9,30 @@ case $? in
 * ) echo "$0: Wrong getopt, sorry" >&2 ; exit 4 ;;
 esac
 
+function version()
+{
+    echo "SQLSERVER2MYSQL $SQLSERVER2MYSQL_VERSION"
+}
+
 function usage()
 {
-    echo "usage: $0 [-dhv]"
+    echo "usage: $0 [-dhv][--debug|--help|--verbose|--version]"
 }
 
 function help()
 {
     usage
+    cat <<EOH  # TODO: Format flags based on screen dimensions
+  -d|--debug  More helpful output
+  -h|--help  Print help and exit
+  -v|--verbose  Explain processing
+  --version  Print version and exit
+
+EOH
+    version
     cat <<EOH
-  -d  (debug) More helpful output
-  -h  (help) Print help and exit
-  -v  (verbose) Explain processing
+Report bugs to: "B. K. Oxley (binkley)" <binkley@alumni.rice.edu>
+SQLSERVER2MYSQL home page: <https://github.com/binkley/sql-server2mysql>
 EOH
 }
 
@@ -27,7 +41,7 @@ shopt -s nocasematch
 debug=false
 verbose=false
 
-args=$(getopt -n "$0" -l debug,help,verbose -o dhv -s bash -- "$@") || exit $?
+args=$(getopt -n "$0" -l debug,help,verbose,version -o dhv -s bash -- "$@") || exit $?
 set - $args
 
 while getopts :dhv-: opt
@@ -40,6 +54,7 @@ do
         debug ) debug=true ;;
         help ) help ; exit 0 ;;
         verbose ) verbose=true ;;
+        version ) version ; exit 0 ;;
         * ) usage >&2 ; exit 2 ;;
         esac ;;
     * ) usage >&2 ; exit 2 ;;

@@ -33,3 +33,9 @@
     [ "$status" -eq 0 ]
     [ -z "$output" ]
 }
+
+@test "--version option" {
+    run ./sql-server2mysql --version </dev/null
+    [ "$status" -eq 0 ]
+    [ -n "$output" ]
+}
