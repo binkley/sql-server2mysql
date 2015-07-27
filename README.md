@@ -53,3 +53,9 @@ $ brew install gnu-getopt
 $ brew unlink gnu-getopt
 $ brew link --force gnu-getopt
 ```
+
+## Changes
+
+### Version 0
+
+* Works just enough and not any more.
